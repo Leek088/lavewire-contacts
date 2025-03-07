@@ -1,7 +1,6 @@
 <?php
 
+use App\Livewire\MainComponent;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function (): void {
-    echo "Bem vindo!";
-});
+Route::get('/', MainComponent::class);
