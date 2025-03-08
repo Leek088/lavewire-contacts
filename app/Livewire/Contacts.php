@@ -14,13 +14,18 @@ class Contacts extends Component
 
     public function mount(): void
     {
-        $this->contacts = Contact::orderBy('id', 'desc')->get();
+        $this->contacts = $this->getContacts();
     }
 
     #[On('refreshContacts')]
     public function refreshContacts(): void
     {
-        $this->contacts = Contact::orderBy('id', 'desc')->get();
+        $this->contacts = $this->getContacts();
+    }
+
+    private function getContacts(): Collection
+    {
+        return $this->contacts = Contact::orderBy('id', 'desc')->get();
     }
 
     public function render(): View
