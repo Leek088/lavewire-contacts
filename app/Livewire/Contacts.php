@@ -4,32 +4,43 @@ namespace App\Livewire;
 
 use App\Models\Contact;
 use Illuminate\View\View;
-use Illuminate\Support\Collection;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Contacts extends Component
 {
-    public Collection $contacts;
+    use WithPagination;
 
-    public function mount(): void
-    {
-        $this->contacts = $this->getContacts();
-    }
+    public string $search = '';
 
     #[On('refreshContacts')]
     public function refreshContacts(): void
     {
-        $this->contacts = $this->getContacts();
+        // Este método será chamado quando o evento 'refreshContacts' for disparado
+        // Não é necessário adicionar lógica aqui, pois o método render será chamado automaticamente
     }
 
-    private function getContacts(): Collection
+    public function placeholder(): string
     {
-        return $this->contacts = Contact::orderBy('id', 'desc')->get();
+        return <<<'HTML'
+        <div>
+            <span>Carregando....</span>
+        </div>
+        HTML;
     }
 
     public function render(): View
     {
-        return view('livewire.contacts');
+        $contacts = Contact::query()
+            ->where('name', 'like', '%' . $this->search . '%')
+            ->orWhere('email', 'like', '%' . $this->search . '%')
+            ->orWhere('phone', 'like', '%' . $this->search . '%')
+            ->orderBy('id', 'desc')
+            ->paginate(5);
+
+        return view('livewire.contacts', [
+            'contacts' => $contacts
+        ]);
     }
 }

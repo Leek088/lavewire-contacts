@@ -10,9 +10,13 @@
 </head>
 
 <body>
+    <div class="text-center my-5">
+        <img src="{{ asset('assets/images/logo.png') }}" alt="Logo" width="128px">
+    </div>
     {{ $slot }}
 </body>
 
 <script src="{{ asset('assets/bootstrap/bootstrap.bundle.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </html>

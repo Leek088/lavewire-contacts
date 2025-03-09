@@ -1,4 +1,6 @@
 <div class="card p-5">
+    <h3>NEW CONTACT</h3>
+    <hr>
     <form wire:submit="newContact">
         <div class="mb-3">
             <label for="name">Name</label>
@@ -25,9 +27,15 @@
             <button class="btn btn-secondary px-5">Save</button>
         </div>
     </form>
-    @empty(!$message_success)
-        <div class="alert alert-success m-2">
-            {{ $message_success }}
-        </div>
-    @endempty
+
+    <script>
+        window.addEventListener('notification', event => {
+            Swal.fire({
+                icon: event.detail.icon,
+                title: event.detail.title,
+                position: event.detail.position,
+            });
+        });
+    </script>
+
 </div>

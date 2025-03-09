@@ -18,13 +18,8 @@ class FormContact extends Component
     #[Validate('required|max:20')]
     public string $phone;
 
-    public string $message_success;
-    public string $message_error;
-
     public function newContact(): void
     {
-        $this->message_success = '';
-
         $this->validate();
 
         Contact::create([
@@ -35,9 +30,14 @@ class FormContact extends Component
 
         $this->dispatch('refreshContacts');
 
-        $this->reset();
+        $this->dispatch(
+            'notification',
+            icon: 'success',
+            title: 'Contact created successfully!',
+            position: 'center'
+        );
 
-        $this->message_success = "Contact created successfully!";
+        $this->reset();
     }
 
     public function render(): View
